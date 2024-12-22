@@ -1,38 +1,44 @@
 package genuary._2025;
 
+import genuary._2025.layer.Layer;
 import processing.core.PApplet;
-import processing.core.PVector;
 
 import static genuary._2025.parameters.Parameters.*;
 import static genuary._2025.save.SaveUtil.saveSketch;
 
-public class Genuary01 extends PApplet {
+public class Genuary02 extends PApplet {
     public static void main(String[] args) {
-        PApplet.main(Genuary01.class);
+        PApplet.main(Genuary02.class);
     }
 
     @Override
     public void settings() {
         size(WIDTH, HEIGHT);
         randomSeed(SEED);
-        noiseSeed(floor(random(MAX_INT)));
     }
 
     @Override
     public void setup() {
         background(BACKGROUND_COLOR.red(), BACKGROUND_COLOR.green(), BACKGROUND_COLOR.green());
-        stroke(STROKE_COLOR.red(), STROKE_COLOR.green(), STROKE_COLOR.blue(), STROKE_COLOR.alpha());
         noFill();
         noLoop();
+
+        Layer.setPApplet(this);
     }
 
     @Override
     public void draw() {
-        for (float angle = 0; angle < TWO_PI; angle += 0.01f * PI) {
-            PVector position = PVector.fromAngle(angle).mult(400).add(WIDTH / 2f, HEIGHT / 2f);
-            line(position.x, position.y,
-                    position.x + 200 * noise(NOISE_SCALE * position.x, NOISE_SCALE * position.y), position.y);
+        for (int i = 0; i < NUMBER_OF_LAYERS; i++) {
+            Layer layer = new Layer();
+            layer.render(LAYER_COLOR);
         }
+
+        // Borders
+        fill(LAYER_COLOR.red(), LAYER_COLOR.green(), LAYER_COLOR.blue(), LAYER_COLOR.alpha());
+        rect(0, 0, WIDTH, MARGIN);
+        rect(0, 0, MARGIN, HEIGHT);
+        rect(0, HEIGHT - MARGIN, WIDTH, MARGIN);
+        rect(WIDTH - MARGIN, 0, MARGIN, HEIGHT);
 
         saveSketch(this);
     }

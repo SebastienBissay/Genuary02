@@ -6,15 +6,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class Parameters {
-    public static final long SEED = 20250101;
-    public static final int WIDTH = 1000;
-    public static final int HEIGHT = 1000;
-    public static final float NOISE_SCALE = 1 / 200f;
-    public static final Color BACKGROUND_COLOR = new Color(220);
-    public static final Color STROKE_COLOR = new Color(24, 11, 5, 120);
+    public static final long SEED = 20250102;
+    public static final int WIDTH = 2025;
+    public static final int HEIGHT = 2025;
+    public static final float MARGIN = 200;
+    public static final int NUMBER_OF_LAYERS = 10;
+    public static final int NUMBER_OF_CUTS = 10;
+    public static final int CHAIKIN_DEPTH = 10;
+    public static final float CHAIKIN_PROPORTION = .2f;
+    public static final float CHAIKIN_THRESHOLD = 3;
+    public static final float CONTRACTION = 5f;
+    public static final Color BACKGROUND_COLOR = new Color(0);
+    public static final Color LAYER_COLOR = new Color(235);
+    public static final Color DEPTH_SHADOW_COLOR = new Color(0, 50);
+    public static final int PROJECTED_SHADOW_LAYERS = 10;
+    public static final float PROJECTED_SHADOW_STROKE_WEIGHT = 30f;
+    public static final float PROJECTED_SHADOW_STROKE_WEIGHT_FACTOR = 3f;
+    public static final Color PROJECTED_SHADOW_COLOR = new Color(0, 10);
 
     /**
-     * Helper method to extract the constants in order to genuary._2025.save them to a json file
+     * Helper method to extract the constants in order to save them to a json file
      *
      * @return a Map of the constants (name -> value)
      */
@@ -22,14 +33,14 @@ public final class Parameters {
         Map<String, Object> map = new HashMap<>();
 
         Field[] declaredFields = Parameters.class.getDeclaredFields();
-        for(Field field : declaredFields) {
+        for (Field field : declaredFields) {
             map.put(field.getName(), field.get(Parameters.class));
         }
 
         return Collections.singletonMap(Parameters.class.getSimpleName(), map);
     }
 
-    public record Color (float red, float green, float blue, float alpha) {
+    public record Color(float red, float green, float blue, float alpha) {
         public Color(float red, float green, float blue) {
             this(red, green, blue, 255);
         }
